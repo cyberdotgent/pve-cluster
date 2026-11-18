@@ -560,10 +560,13 @@ START_TEST(test_indextest1) {
     ck_assert(sha256 != NULL);
     g_checksum_update(sha256, (unsigned char *)idx, idx->bytes);
     const char *csum = g_checksum_get_string(sha256);
-    ck_assert_msg(
-        strcmp(csum, "913fd95015af9d93f10dd51ba2a7bb11351bcfe040be21e95fcba834adc3ec10") == 0,
-        "wrong idx checksum %s", csum
-    );
+    /* the index and its per-entry digests are built from host-endian integers */
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+    const char *expected = "efdfcdde67acb6b48e4b415a172d5a1897c725b03a9b2c12d20efe0ab8adad44";
+#else
+    const char *expected = "913fd95015af9d93f10dd51ba2a7bb11351bcfe040be21e95fcba834adc3ec10";
+#endif
+    ck_assert_msg(strcmp(csum, expected) == 0, "wrong idx checksum %s", csum);
     g_free(idx);
     g_free(testdata);
 }
