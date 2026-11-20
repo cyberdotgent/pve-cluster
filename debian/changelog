@@ -1,3 +1,10 @@
+pve-cluster (9.1.15+s390x1) trixie; urgency=medium
+
+  * s390x port, rebased onto 9.1.15:
+    - pmxcfs: check_memdb: accept the big-endian index checksum.
+
+ -- Yvan Janssens <yvanj@cyber.gent>  Sat, 21 Nov 2026 17:10:01 +0100
+
 pve-cluster (9.1.15) trixie; urgency=medium
 
   * pmxcfs: when sending the new cluster ID fails because corosync
